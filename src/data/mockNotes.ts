@@ -1,14 +1,20 @@
 export const mockNotes = [
 	{
 		id: 1,
-		title: "React Notes",
-		content: "Learn Zustand and routing",
-		pinned: true,
+		title: "React Learning",
+		content:
+			"Finish Zustand and markdown support.",
 	},
 	{
 		id: 2,
-		title: "Ideas",
-		content: "Build markdown support",
-		pinned: false,
+		title: "Docker Ideas",
+		content:
+			"Containerize frontend and backend later.",
+	},
+	{
+		id: 3,
+		title: "Project Goals",
+		content:
+			"Build a production-ready notes app.",
 	},
 ]
