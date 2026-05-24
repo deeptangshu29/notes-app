@@ -10,7 +10,7 @@ export default function Home() {
 			<Sidebar />
 			<main className="flex-1 flex flex-col">
 				<Header />
-				<section className="p-6 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+				<section className="m-6 p-6 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
 					{mockNotes.map((note) => (
 						<NoteCard
 							key={note.id}

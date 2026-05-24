@@ -6,23 +6,29 @@ import {
 
 export default function Sidebar() {
 	return (
-		<aside className="w-64 border-r border-zince-800 p-4 hidden md:block">
+		<aside className="w-64 border-r border-zinc-500 p-4 hidden md:block">
 			<h1 className="text-2xl font-bold mb-8">
 				Notes
 			</h1>
 			<nav className="space-y-4">
-				<button className="flex items-center gap-2 text-zinc-300 hover:text-white">
+				<div className="m-2 p-2 border border-transparent rounded-xl hover:border-2 hover:border-zinc-500 hover:scale-106 hover:text-white hover:font-bold transition-all duration-200 ease-in-out">
+					<button className="flex items-center gap-2 text-zinc-300">
 					<StickyNote size={20}/>
 					Notes
 				</button>
-				<button className="flex items-center gap-2 text-zinc-300 hover:text-white">
+				</div>
+				<div className="m-2 p-2 border border-transparent rounded-xl hover:border-2 hover:border-zinc-500 hover:scale-106 hover:text-white hover:font-bold transition-all duration-200 ease-in-out">
+					<button className="flex items-center gap-2 text-zinc-300">
 					<Archive size={20}/>
 					Archive
 				</button>
-				<button className="flex items-center gap-2 text-zinc-300 hover:text-white">
+				</div>
+				<div className="m-2 p-2 border border-transparent rounded-xl hover:border-2 hover:border-zinc-500 hover:scale-106 hover:text-white hover:font-bold transition-all duration-200 ease-in-out">
+					<button className="flex items-center gap-2 text-zinc-300">
 					<Trash2 size={20}/>
 					Trash
 				</button>
+				</div>
 		</nav>
 		</aside>
 	)
