@@ -11,6 +11,10 @@ type NotesStore = {
 	deleteNote: (
 		id: number
 	) => void
+
+	updateNote: (
+		updatedNote: Note
+	) => void
 }
 
 export const useNotesStore =
@@ -49,4 +53,13 @@ export const useNotesStore =
 					(note) => note.id !== id
 				),
 			})),
+		
+		updateNote: (updatedNote) =>
+			set((state) => ({
+				notes: state.notes.map((note =>
+					note.id === updatedNote.id
+						? updatedNote
+						: note
+				))
+			}))
 	}))

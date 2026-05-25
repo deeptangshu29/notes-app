@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNotesStore } from "../store/userNotesStore";
+import { useNotesStore } from "../store/useNotesStore";
 
 type CreateNoteModalProps = {
 	onClose: () => void

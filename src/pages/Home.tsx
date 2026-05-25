@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useNotesStore } from "../store/userNotesStore"
+import { useNotesStore } from "../store/useNotesStore"
 import Sidebar from "../components/Sidebar"
 import Header from "../components/Header"
 import NoteCard from "../components/NoteCard"
