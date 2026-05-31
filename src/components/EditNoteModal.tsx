@@ -40,8 +40,8 @@ export default function EditNoteModal({
 				<textarea value={content} onChange={(e) => setContent(e.target.value)} className="w-full h-40 p-3 rounded-xl bg-zinc-800 outline-none resize-none" />
 				
 				<div className="flex justify-end gap-3 mt-5">
-					<button onClick={onClose} className="px-4 py-2 rounded-xl bg-zinc-700 hover:bg-zinc-600 transition">Cancel</button>
-					<button onClick={handleUpdateNote} className="px-4 py-2 rounded-xl text-black bg-zinc-300 hover:bg-white transition">Update</button>
+					<button onClick={onClose} className="px-4 py-2 min-w-[5rem] rounded-xl border hover:bg-zinc-600 transition">Cancel</button>
+					<button onClick={handleUpdateNote} className="px-4 py-2 min-w-[5rem] rounded-xl text-black bg-zinc-300 hover:bg-white transition">Update</button>
 				</div>
 			</div>
 		</div>
