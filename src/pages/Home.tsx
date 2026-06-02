@@ -11,13 +11,22 @@ export default function Home() {
 		(state) => state.notes
 	)
 	const [isModalOpen, setIsModalOpen] = useState(false)
+	const [searchQuery, setSearchQuery] = useState("")
+	const filteredNotes = notes.filter((note) =>
+		note.title.toLocaleLowerCase().includes(searchQuery.toLowerCase()) ||
+		note.content.toLocaleLowerCase().includes(searchQuery.toLowerCase())
+	)
+
 	return (
 		<MainLayout>
 			<Sidebar />
 			<main className="flex-1 flex flex-col">
-				<Header />
+				<Header 
+					searchQuery={searchQuery}
+					setSearchQuery = {setSearchQuery}
+				/>
 				<section className="m-6 p-6 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
-					{notes.map((note) => (
+					{filteredNotes.map((note) => (
 						<NoteCard
 							key={note.id}
 							id={note.id}
