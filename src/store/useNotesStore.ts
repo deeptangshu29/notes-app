@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware'
 
 import type { Note } from '../types/notes';
+import { mockNotes } from '../data/mockNotes';
 
 type NotesStore = {
 	notes: Note[]
@@ -23,22 +24,7 @@ export const useNotesStore =
 	create<NotesStore>()(
 		persist(
 			(set) => ({
-				notes: [
-					{
-						id: 1,
-						title: "React Learning",
-						content:
-							"Finish Zustand integration.",
-						pinned: false,
-					},
-					{
-						id: 2,
-						title: "Docker",
-						content:
-							"Learn Docker Compose later.",
-						pinned: true,
-					},
-				],
+				notes: mockNotes,
 
 				addNote: (note) =>
 					set((state) => ({

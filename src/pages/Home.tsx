@@ -20,8 +20,8 @@ export default function Home() {
 	)
 
 	// Autocomplete suggestion Feature
-	const suggestions = notes.filter((note) =>
-		note.title.toLocaleLowerCase().includes(searchQuery.toLocaleLowerCase())).map((note) => note.title).slice(0, 5)
+	const suggestions = [...new Set(notes.filter((note) =>
+		note.title.toLocaleLowerCase().includes(searchQuery.toLocaleLowerCase())).map((note) => note.title)),].slice(0, 5)
 
 	return (
 		<MainLayout>
