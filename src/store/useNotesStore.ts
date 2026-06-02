@@ -1,4 +1,6 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware'
+
 import type { Note } from '../types/notes';
 
 type NotesStore = {
@@ -18,48 +20,56 @@ type NotesStore = {
 }
 
 export const useNotesStore =
-	create<NotesStore>((set) => ({
-		notes: [
-			{
-				id: 1,
-				title: "React Learning",
-				content:
-					"Finish Zustand integration.",
-				pinned: false,
-			},
-			{
-				id: 2,
-				title: "Docker",
-				content:
-					"Learn Docker Compose later.",
-				pinned: true,
-			},
-		],
-
-		addNote: (note) =>
-			set((state) => ({
+	create<NotesStore>()(
+		persist(
+			(set) => ({
 				notes: [
 					{
-						...note,
-						id: Date.now(),
+						id: 1,
+						title: "React Learning",
+						content:
+							"Finish Zustand integration.",
+						pinned: false,
 					},
-					...state.notes,
+					{
+						id: 2,
+						title: "Docker",
+						content:
+							"Learn Docker Compose later.",
+						pinned: true,
+					},
 				],
-			})),
 
-		deleteNote: (id) =>
-			set((state) => ({
-				notes: state.notes.filter(
-					(note) => note.id !== id
-				),
-			})),
-		
-		updateNote: (updatedNote) =>
-			set((state) => ({
-				notes: state.notes.map((note =>
-					note.id === updatedNote.id
-						? updatedNote
-						: note
-				))
-			}))
-	}))
+				addNote: (note) =>
+					set((state) => ({
+						notes: [
+							{
+								...note,
+								id: Date.now(),
+							},
+							...state.notes,
+						],
+					})),
+
+				deleteNote: (id) =>
+					set((state) => ({
+						notes: state.notes.filter(
+							(note) => note.id !== id
+						),
+					})),
+
+				updateNote: (updatedNote) =>
+					set((state) => ({
+						notes: state.notes.map((note =>
+							note.id === updatedNote.id
+								? updatedNote
+								: note
+						))
+					}))
+			}),
+			{
+				name: "notes-storage",
+			}
+		)
+	)
+	
