@@ -1,7 +1,9 @@
 import { useState } from "react"
 
 // Icon import
-import { Pencil, Trash2 } from "lucide-react"
+import {
+	Pencil, Trash2, Pin,
+} from "lucide-react"
 
 // Components import
 import { useNotesStore } from "../store/useNotesStore"
@@ -13,18 +15,24 @@ type NoteCardProps = {
 	id: number
 	title: string
 	content: string
+	pinned: boolean
 }
 
 export default function NoteCard({
 	id,
 	title,
 	content,
+	pinned,
 }: NoteCardProps) {
 	const [isEditing, setIsEditing] = useState(false)
 	const [isViewing, setIsViewing] = useState(false)
 
 	const deleteNote = useNotesStore(
 		(state) => state.deleteNote
+	)
+
+	const togglePin = useNotesStore(
+		(state) => state.togglePin
 	)
 
 	return (
@@ -45,6 +53,17 @@ export default function NoteCard({
 				</div>
 
 				<div className="flex flex-row gap-2 min-h-fit hidden group-hover:flex gap-2">
+					<button
+						onClick={(e) => {
+							e.stopPropagation()
+							togglePin(id)
+						}}
+						className={`relative border rounded-full p-2 transition-all duration-300 cursor-pointer ${pinned
+							? "bg-yellow-500/30 text-yellow-300 border-yellow-400"
+							: "text-zinc-500 border-zinc-500"}
+						`}>
+						<Pin size={18} />
+					</button>
 					<button
 						onClick={(e) => {
 							e.stopPropagation()

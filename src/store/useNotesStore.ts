@@ -18,6 +18,10 @@ type NotesStore = {
 	updateNote: (
 		updatedNote: Note
 	) => void
+
+	togglePin: (
+		id: number
+	) => void
 }
 
 export const useNotesStore =
@@ -51,6 +55,18 @@ export const useNotesStore =
 								? updatedNote
 								: note
 						))
+					})),
+
+				togglePin: (id) =>
+					set((state) => ({
+						notes: state.notes.map((note) =>
+							note.id === id
+								? {
+									...note,
+									pinned: !note.pinned
+								}
+								: note
+						)
 					}))
 			}),
 			{
@@ -58,4 +74,4 @@ export const useNotesStore =
 			}
 		)
 	)
-	
+
