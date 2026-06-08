@@ -2,7 +2,7 @@ import { useState } from "react"
 
 // Icon import
 import {
-	Pencil, Trash2, Pin,
+	Pencil, Trash2, Pin, PinOff,
 } from "lucide-react"
 
 // Components import
@@ -39,7 +39,7 @@ export default function NoteCard({
 		<>
 			<div
 				onClick={() => setIsViewing(true)}
-				className="group flex justify-between mb-4 bg-zinc-900/20 backdrop-blur-lg border border-zinc-800 rounded-2xl p-5 hover:border-zinc-500 hover:bg-zinc-700 transition-all duration-400 select-none">
+				className="group relative justify-between mb-4 bg-zinc-900/20 backdrop-blur-lg border border-zinc-800 rounded-2xl p-5 hover:border-zinc-500 hover:bg-zinc-500/40 transition-all duration-300 select-none">
 
 				<div className="flex flex-col flex-1 overflow-hidden">
 					<h2 className="text-lg font-semibold mb-2 truncate">
@@ -52,17 +52,22 @@ export default function NoteCard({
 					</p>
 				</div>
 
-				<div className="flex flex-row gap-2 min-h-fit hidden group-hover:flex gap-2">
+				{/* <div className="flex flex-row gap-2 min-h-fit hidden group-hover:flex gap-2"> */}
+				<div className="absolute hidden group-hover:flex top-4 right-4 gap-2">
 					<button
 						onClick={(e) => {
 							e.stopPropagation()
 							togglePin(id)
 						}}
 						className={`relative border rounded-full p-2 transition-all duration-300 cursor-pointer ${pinned
-							? "bg-yellow-500/30 text-yellow-300 border-yellow-400"
-							: "text-zinc-500 border-zinc-500"}
+							? "bg-yellow-500/30 text-yellow-300 border-yellow-400 hover:hover:bg-white/50 hover:backdrop-blur-lg hover:text-white"
+							: "hover:bg-white/50 text-zinc-500 border-zinc-500 hover:bg-yellow-600/50 hover:backdrop-blur-lg hover:text-white"}
 						`}>
-						<Pin size={18} />
+						{pinned
+							?<PinOff size={18} />
+							:<Pin size={18} />
+						}
+						
 					</button>
 					<button
 						onClick={(e) => {
@@ -90,7 +95,7 @@ export default function NoteCard({
 							id,
 							title,
 							content,
-							pinned: false,
+							pinned,
 						}}
 						onClose={() => setIsEditing(false)}
 					/>
@@ -103,7 +108,7 @@ export default function NoteCard({
 							id,
 							title,
 							content,
-							pinned: false,
+							pinned,
 						}}
 						onClose={() => setIsViewing(false)}
 						onDelete={() => {
