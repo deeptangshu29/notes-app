@@ -21,7 +21,8 @@ export default function CreateNoteModal({
 		addNote({
 			title,
 			content,
-			pinned: false
+			pinned: false,
+			isDeleted: false
 		})
 
 		onClose()

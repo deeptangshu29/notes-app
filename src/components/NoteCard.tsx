@@ -16,6 +16,7 @@ type NoteCardProps = {
 	title: string
 	content: string
 	pinned: boolean
+	isDeleted: boolean
 }
 
 export default function NoteCard({
@@ -23,6 +24,8 @@ export default function NoteCard({
 	title,
 	content,
 	pinned,
+	isDeleted,
+	
 }: NoteCardProps) {
 	const [isEditing, setIsEditing] = useState(false)
 	const [isViewing, setIsViewing] = useState(false)
@@ -96,6 +99,7 @@ export default function NoteCard({
 							title,
 							content,
 							pinned,
+							isDeleted,
 						}}
 						onClose={() => setIsEditing(false)}
 					/>
@@ -109,6 +113,7 @@ export default function NoteCard({
 							title,
 							content,
 							pinned,
+							isDeleted,
 						}}
 						onClose={() => setIsViewing(false)}
 						onDelete={() => {

@@ -3,6 +3,7 @@ export type Note = {
 	title: string;
 	content: string;
 	pinned: boolean;
+	isDeleted: boolean;
 	// createdAt: Date;
 	// updatedAt: Date;
 }

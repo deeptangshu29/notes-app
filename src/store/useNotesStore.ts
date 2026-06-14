@@ -14,6 +14,14 @@ type NotesStore = {
 	deleteNote: (
 		id: number
 	) => void
+	
+	restoreNote: (
+		id: number
+	) => void
+
+	deleteNotePermanently: (
+		id: number
+	) => void
 
 	updateNote: (
 		updatedNote: Note
@@ -42,6 +50,30 @@ export const useNotesStore =
 					})),
 
 				deleteNote: (id) =>
+					set((state) => ({
+						notes: state.notes.map((note) =>
+							note.id === id
+								? {
+									...note,
+									isDeleted: true
+								}
+								: note
+						)
+					})),
+				
+				restoreNote: (id) =>
+					set((state) => ({
+						notes: state.notes.map((note) =>
+							note.id === id
+								? {
+									...note,
+									isDeleted: false
+								}
+								: note
+						)
+					})),
+
+				deleteNotePermanently: (id) =>
 					set((state) => ({
 						notes: state.notes.filter(
 							(note) => note.id !== id
