@@ -63,7 +63,8 @@ export const useNotesStore =
 							note.id === id
 								? {
 									...note,
-									isDeleted: true
+									isDeleted: true,
+									isArchive: false,
 								}
 								: note
 						)
@@ -75,7 +76,8 @@ export const useNotesStore =
 							note.id === id
 								? {
 									...note,
-									isDeleted: false
+									isDeleted: false,
+									isArchive: false,
 								}
 								: note
 						)
@@ -94,7 +96,8 @@ export const useNotesStore =
 							note.id === id
 								? {
 									...note,
-									isArchive: true
+									isArchive: true,
+									isDeleted: false,
 								}
 								: note
 						)
@@ -106,7 +109,8 @@ export const useNotesStore =
 							note.id === id
 								? {
 									...note,
-									isArchive: false
+									isArchive: false,
+									isDeleted: false,
 								}
 								: note
 						)
