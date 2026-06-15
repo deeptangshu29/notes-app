@@ -6,6 +6,7 @@ export const mockNotes = [
 			"Finish Zustand and markdown support.",
 		pinned: false,
 		isDeleted: false,
+		isArchive: false,
 	},
 	{
 		id: 2,
@@ -14,6 +15,7 @@ export const mockNotes = [
 			"Containerize frontend and backend later.",
 		pinned: false,
 		isDeleted: false,
+		isArchive: false,
 	},
 	{
 		id: 3,
@@ -22,6 +24,7 @@ export const mockNotes = [
 			"Build a production-ready notes app.",
 		pinned: false,
 		isDeleted: false,
+		isArchive: false,
 	},
 	{
 		id: 4,
@@ -30,6 +33,7 @@ export const mockNotes = [
 			"Containerize frontend and backend later.",
 		pinned: false,
 		isDeleted: false,
+		isArchive: false,
 	},
 	{
 		id: 5,
@@ -38,6 +42,7 @@ export const mockNotes = [
 			"Containerize frontend and backend later.",
 		pinned: false,
 		isDeleted: false,
+		isArchive: false,
 	},
 	{
 		id: 6,
@@ -46,5 +51,6 @@ export const mockNotes = [
 			"Containerize frontend and backend later.",
 		pinned: false,
 		isDeleted: false,
+		isArchive: false,
 	},
 ]

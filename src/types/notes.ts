@@ -4,6 +4,7 @@ export type Note = {
 	content: string;
 	pinned: boolean;
 	isDeleted: boolean;
+	isArchive: boolean;
 	// createdAt: Date;
 	// updatedAt: Date;
 }

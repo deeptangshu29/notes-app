@@ -22,6 +22,14 @@ type NotesStore = {
 	deleteNotePermanently: (
 		id: number
 	) => void
+	
+	archiveNote: (
+		id: number
+	) => void
+	
+	unarchiveNote: (
+		id: number
+	) => void
 
 	updateNote: (
 		updatedNote: Note
@@ -78,6 +86,30 @@ export const useNotesStore =
 						notes: state.notes.filter(
 							(note) => note.id !== id
 						),
+					})),
+
+				archiveNote: (id) =>
+					set((state) => ({
+						notes: state.notes.map((note) =>
+							note.id === id
+								? {
+									...note,
+									isArchive: true
+								}
+								: note
+						)
+					})),
+
+				unarchiveNote: (id) =>
+					set((state) => ({
+						notes: state.notes.map((note) =>
+							note.id === id
+								? {
+									...note,
+									isArchive: false
+								}
+								: note
+						)
 					})),
 
 				updateNote: (updatedNote) =>

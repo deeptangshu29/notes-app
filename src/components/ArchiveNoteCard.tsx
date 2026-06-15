@@ -2,13 +2,13 @@ import { useState } from "react"
 
 // Icon import
 import {
-	RotateCcw,
+	ArchiveRestore,
 	Trash2,
 } from "lucide-react"
 
 // Components import
 import { useNotesStore } from "../store/useNotesStore"
-import ViewTrashNoteModal from "./ViewTrashNoteModal"
+import ViewTrashNoteModal from "./ViewArchiveNoteModal"
 
 
 type NoteCardProps = {
@@ -20,7 +20,7 @@ type NoteCardProps = {
 	isArchive: boolean
 }
 
-export default function TrashNoteCard({
+export default function ArchiveNoteCard({
 	id,
 	title,
 	content,
@@ -30,12 +30,12 @@ export default function TrashNoteCard({
 }: NoteCardProps) {
 	const [isViewing, setIsViewing] = useState(false)
 
-	const restoreNote = useNotesStore(
-		(state) => state.restoreNote
+	const unarchiveNote = useNotesStore(
+		(state) => state.unarchiveNote
 	)
 
-	const deleteNotePermanently = useNotesStore(
-		(state) => state.deleteNotePermanently
+	const deleteNote = useNotesStore(
+		(state) => state.deleteNote
 	)
 
 	return (
@@ -61,15 +61,15 @@ export default function TrashNoteCard({
 					<button
 						onClick={(e) => {
 							e.stopPropagation()
-							restoreNote(id)
+							unarchiveNote(id)
 						}}
 						className="relative text-zinc-500 border border-zinc-500 hover:text-black rounded-full p-2 hover:bg-white hover:border-zinc-400 transition-all duration-300 ease-in-out cursor-pointer">
-						<RotateCcw size={18} />
+						<ArchiveRestore size={18} />
 					</button>
 					<button
 						onClick={(e) => {
 							e.stopPropagation()
-							deleteNotePermanently(id)
+							deleteNote(id)
 						}}
 						className="relative text-zinc-500 border border-zinc-500 rounded-full p-2 hover:bg-[#ad2323] hover:text-white hover:border-red-400 transition-all duration-300 ease-in-out cursor-pointer">
 						<Trash2 size={18} />
@@ -89,13 +89,13 @@ export default function TrashNoteCard({
 							isArchive,
 						}}
 						onClose={() => setIsViewing(false)}
-						onRestore={() => {
+						onUnarchive={() => {
 							setIsViewing(false)
-							restoreNote(id)
+							unarchiveNote(id)
 						}}
 						onDelete={() => {
 							setIsViewing(false)
-							deleteNotePermanently(id)
+							deleteNote(id)
 						}}
 					/>
 				)

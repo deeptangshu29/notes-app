@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { useNotesStore } from "../store/useNotesStore"
 
+import { CircleX } from "lucide-react"
 
 import Sidebar from "../components/Sidebar"
 import Header from "../components/Header"
@@ -26,20 +27,13 @@ export default function Home() {
 		note.content.toLocaleLowerCase().includes(searchQuery.toLowerCase())
 	)
 
-	const unpinnedNotes = [...deletedNotes].filter((note) => !note.pinned)
-
 	// Searching Feature
-	const filteredUnpinnedNotes = unpinnedNotes.filter((note) =>
+	const filteredUnpinnedNotes = deletedNotes.filter((note) =>
 		note.title.toLocaleLowerCase().includes(searchQuery.toLowerCase()) ||
 		note.content.toLocaleLowerCase().includes(searchQuery.toLowerCase())
 	)
 
-	// Filter out only pinned Notes
-	const pinnedNotes = (
-		[...deletedNotes].filter((note) => note.pinned)
-	)
-
-	const pinnedCount = pinnedNotes.length
+	const deletedCount = deletedNotes.length
 
 	// Autocomplete suggestion Feature
 	const suggestions = [...new Set(deletedNotes.filter((note) =>
@@ -55,7 +49,15 @@ export default function Home() {
 					suggestions={suggestions}
 				/>
 				{
-					isSearching ? (
+					deletedCount <= 0 ? (
+						<div className="h-full flex items-center justify-center m-5">
+							<div className="inset-0 bg-zinc-700/50 backdrop-brightness-300 backdrop-blur-lg border border-white rounded-2xl w-full h-full m-5 p-5 flex flex-col items-center justify-center gap-[3rem] select-none cursor-not-allowed">
+								<CircleX size={80} />
+								<h2 className="text-4xl">No Deleted Notes</h2>
+							</div>
+						</div>
+					) : (
+						isSearching ? (
 						<div>
 							<h2 className="m-6 mb-0 text-3xl font-bold">Search Results ({searchResults.length})</h2>
 							{
@@ -74,6 +76,7 @@ export default function Home() {
 													content={note.content}
 													pinned={note.pinned}
 													isDeleted={note.isDeleted}
+													isArchive={note.isArchive}
 												/>
 											))
 										}
@@ -84,31 +87,6 @@ export default function Home() {
 
 						<div>
 							<div className="m-0 p-0">
-								{pinnedCount > 0 && (
-									<h2 className="m-6 mb-0 text-3xl font-bold">Pinned Notes</h2>
-								)}
-								{pinnedCount > 0 && (
-									<>
-										<section className="m-6 mt-0 p-6 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
-											{pinnedNotes.map((note) => (
-												<TrashNoteCard
-													key={note.id}
-													id={note.id}
-													title={note.title}
-													content={note.content}
-													pinned={note.pinned}
-													isDeleted={note.isDeleted}
-												/>
-											))}
-										</section>
-										<div className="border-b border-gray-500 mx-10 mb-20" />
-									</>
-								)}
-							</div>
-							<div className="m-0 p-0">
-								{pinnedCount > 0 && (
-									<h3 className="m-6 mb-0 text-2xl font-bold">All Notes</h3>
-								)}
 								<section className="m-6 mt-0 p-6 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
 									{filteredUnpinnedNotes.map((note) => (
 										<TrashNoteCard
@@ -118,11 +96,13 @@ export default function Home() {
 											content={note.content}
 											pinned={note.pinned}
 											isDeleted={note.isDeleted}
+											isArchive={note.isArchive}
 										/>
 									))}
 								</section>
 							</div>
-						</div>)
+									</div>)
+					)
 				}
 
 			</main>

@@ -12,7 +12,7 @@ export default function Home() {
 	)
 
 	const activeNotes = notes.filter(
-		(note) => !note.isDeleted
+		(note) => !note.isDeleted && !note.isArchive
 	)
 
 	const [isModalOpen, setIsModalOpen] = useState(false)
@@ -72,6 +72,7 @@ export default function Home() {
 													content={note.content}
 													pinned={note.pinned}
 													isDeleted={note.isDeleted}
+													isArchive={note.isArchive}
 												/>
 											))
 										}
@@ -96,6 +97,7 @@ export default function Home() {
 													content={note.content}
 													pinned={note.pinned}
 													isDeleted={note.isDeleted}
+													isArchive={note.isArchive}
 												/>
 											))}
 										</section>
@@ -116,6 +118,7 @@ export default function Home() {
 											content={note.content}
 											pinned={note.pinned}
 											isDeleted={note.isDeleted}
+											isArchive={note.isArchive}
 										/>
 									))}
 								</section>

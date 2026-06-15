@@ -6,12 +6,12 @@ import type { Note } from "../types/notes";
 type ViewNoteModalProps = {
 	note: Note,
 	onClose: () => void,
-	onRestore: () => void,
+	onUnarchive: () => void,
 	onDelete: () => void,
 }
 
 
-export default function ViewTrashNoteModal({ note, onClose, onRestore, onDelete }: ViewNoteModalProps) {
+export default function ViewTrashNoteModal({ note, onClose, onUnarchive, onDelete }: ViewNoteModalProps) {
 	const [title] = useState(note.title)
 	const [content] = useState(note.content)
 
@@ -27,7 +27,7 @@ export default function ViewTrashNoteModal({ note, onClose, onRestore, onDelete 
 					<div className="flex justify-end gap-3 mt-5">
 						<button onClick={onDelete} className="p-2 rounded-xl text-zinc-500 border border-zinc-500 hover:bg-[#ad2323] hover:text-[#ffffff] hover:border-zinc-400 transition"><Trash2 /></button>
 						<button onClick={onClose} className="px-4 py-2 min-w-[5rem] rounded-xl border hover:bg-zinc-600 transition">Close</button>
-						<button onClick={onRestore} className="px-4 py-2 min-w-[5rem] rounded-xl text-black bg-zinc-300 hover:bg-white transition">Restore</button>
+						<button onClick={onUnarchive} className="px-4 py-2 min-w-[5rem] rounded-xl text-black bg-zinc-300 hover:bg-white transition">Unarchive</button>
 					</div>
 				</div>
 			</div>

@@ -2,7 +2,7 @@ import { useState } from "react"
 
 // Icon import
 import {
-	Pencil, Trash2, Pin, PinOff,
+	Pencil, Trash2, Pin, PinOff, Archive,
 } from "lucide-react"
 
 // Components import
@@ -17,6 +17,7 @@ type NoteCardProps = {
 	content: string
 	pinned: boolean
 	isDeleted: boolean
+	isArchive: boolean
 }
 
 export default function NoteCard({
@@ -25,6 +26,7 @@ export default function NoteCard({
 	content,
 	pinned,
 	isDeleted,
+	isArchive,
 	
 }: NoteCardProps) {
 	const [isEditing, setIsEditing] = useState(false)
@@ -32,6 +34,10 @@ export default function NoteCard({
 
 	const deleteNote = useNotesStore(
 		(state) => state.deleteNote
+	)
+
+	const archiveNote = useNotesStore(
+		(state) => state.archiveNote
 	)
 
 	const togglePin = useNotesStore(
@@ -63,8 +69,8 @@ export default function NoteCard({
 							togglePin(id)
 						}}
 						className={`relative border rounded-full p-2 transition-all duration-300 cursor-pointer ${pinned
-							? "bg-yellow-500/30 text-yellow-300 border-yellow-400 hover:hover:bg-white/50 hover:backdrop-blur-lg hover:text-white"
-							: "hover:bg-white/50 text-zinc-500 border-zinc-500 hover:bg-yellow-600/50 hover:backdrop-blur-lg hover:text-white"}
+							? "bg-yellow-500 ring-2 ring-yellow-400 ring-inset hover:bg-white hover:text-yellow-600"
+							: "text-zinc-500 border-zinc-500 hover:bg-yellow-500 hover:text-white"}
 						`}>
 						{pinned
 							?<PinOff size={18} />
@@ -77,15 +83,23 @@ export default function NoteCard({
 							e.stopPropagation()
 							setIsEditing(true)
 						}}
-						className="relative  text-zinc-500 border border-zinc-500 hover:text-white rounded-full p-2 hover:bg-white/50 hover:backdrop-blur-lg hover:border-zinc-400 transition-all duration-300 ease-in-out cursor-pointer">
+						className="relative text-zinc-500 border border-zinc-500 hover:text-black rounded-full p-2 hover:bg-white hover:border-zinc-400 transition-all duration-300 ease-in-out cursor-pointer">
 						<Pencil size={18} />
+					</button>
+					<button
+						onClick={(e) => {
+							e.stopPropagation()
+							archiveNote(id)
+						}}
+						className="relative text-zinc-500 border border-zinc-500 rounded-full p-2 hover:bg-sky-700 hover:text-white hover:border-zinc-400 transition-all duration-300 ease-in-out cursor-pointer">
+						<Archive size={18} />
 					</button>
 					<button
 						onClick={(e) => {
 							e.stopPropagation()
 							deleteNote(id)
 						}}
-						className="relative text-zinc-500 border border-zinc-500 rounded-full p-2 hover:bg-[#ad2323]/50 hover:backdrop-blur-lg hover:text-[#ffffff] hover:border-zinc-400 transition-all duration-300 ease-in-out cursor-pointer">
+						className="relative text-zinc-500 border border-zinc-500 rounded-full p-2 hover:bg-[#ad2323]/50 hover:text-[#ffffff] hover:border-zinc-400 transition-all duration-300 ease-in-out cursor-pointer">
 						<Trash2 size={18} />
 					</button>
 				</div>
@@ -100,6 +114,7 @@ export default function NoteCard({
 							content,
 							pinned,
 							isDeleted,
+							isArchive,
 						}}
 						onClose={() => setIsEditing(false)}
 					/>
@@ -114,11 +129,20 @@ export default function NoteCard({
 							content,
 							pinned,
 							isDeleted,
+							isArchive,
 						}}
 						onClose={() => setIsViewing(false)}
 						onDelete={() => {
 							setIsViewing(false)
 							deleteNote(id)
+						}}
+						onPin={() => {
+							setIsViewing(false)
+							togglePin(id)
+						}}
+						onArchive={() => {
+							setIsViewing(false)
+							archiveNote(id)
 						}}
 						onEdit={() => {
 							setIsViewing(false)
