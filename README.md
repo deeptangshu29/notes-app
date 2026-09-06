@@ -1,180 +1,96 @@
-# Notes App
+# 📝 Notes App
 
-A modern notes application built with **React** and **TypeScript**, currently focused on establishing a clean component structure, note state management, and reliable note lifecycle operations.
+> A modern notes application built with **React + TypeScript**, developed incrementally with a focus on clean architecture, predictable state management, and robust edge-case handling.
 
-> **Project status:** In active development  
-> **Documentation scope:** Everything implemented and discussed up to **September 7, 2026**
-
----
-
-## Table of Contents
-
-- [Overview](#overview)
-- [Current Features](#current-features)
-- [Implemented Functionality](#implemented-functionality)
-- [Archive](#archive)
-- [Delete and Edge Cases](#delete-and-edge-cases)
-- [Layout Architecture](#layout-architecture)
-- [Technology Stack](#technology-stack)
-- [Project Architecture](#project-architecture)
-- [Design and Implementation Principles](#design-and-implementation-principles)
-- [Current Development Status](#current-development-status)
-- [Next Steps](#next-steps)
+**Status:** 🚧 Active Development  
+**Last documented:** September 7, 2026
 
 ---
 
-## Overview
+## 📌 Table of Contents
 
-The **Notes App** is a React-based note-taking application being developed with a strong emphasis on maintainable architecture, predictable state transitions, reusable components, and clean UI structure.
+<details>
+<summary><strong>Expand documentation</strong></summary>
 
-The project is being built incrementally rather than treating each feature as an isolated implementation. Core note operations are being designed so that actions such as archiving and deleting behave consistently regardless of where the user performs them in the application.
+- [Overview](#-overview)
+- [Features](#-current-features)
+- [Architecture](#-architecture)
+- [Note State](#-note-state)
+- [Archive](#-archive)
+- [Delete](#-delete)
+- [Layout](#-layout)
+- [Tech Stack](#-tech-stack)
+- [Development Principles](#-development-principles)
+- [Progress](#-development-progress)
+- [Roadmap](#-roadmap)
 
----
-
-## Current Features
-
-The following functionality has been implemented or worked through so far:
-
-- Note-based application structure
-- React + TypeScript application architecture
-- Main application layout
-- Note archive functionality
-- Archive/unarchive state handling
-- Delete functionality
-- Delete edge-case handling for archived notes
-- Separation of layout concerns from feature/state logic
-- Incremental refinement of component and state behavior
+</details>
 
 ---
 
-## Implemented Functionality
+## 🔎 Overview
 
-### Notes
+The **Notes App** is a React-based note-taking application designed around a simple idea:
 
-Notes are represented with an archive state, allowing the application to distinguish between active and archived notes.
+> **Keep the data model simple, keep state predictable, and keep responsibilities separated.**
 
-The archive state is handled through an `isArchive` property.
-
-Conceptually:
-
-```ts
-type Note = {
-  // other note properties
-  isArchive: boolean;
-};
-```
-
-The important distinction is that archiving is a **state transition**, not a separate type of note. This keeps the underlying note model simple while allowing the UI to present active and archived notes separately.
+The project is being built feature-by-feature. Each feature is implemented first, then its interactions and edge cases are refined before moving on.
 
 ---
 
-## Archive
+## ✨ Current Features
 
-Archive functionality has been implemented using the note's `isArchive` state.
+| Feature | Status |
+|---|:---:|
+| React + TypeScript foundation | ✅ |
+| Notes application structure | ✅ |
+| Main application layout | ✅ |
+| Archive notes | ✅ |
+| Unarchive notes | ✅ |
+| Delete notes | ✅ |
+| Archive/Delete edge cases | ✅ |
+| Layout/feature separation | 🟡 |
+| Additional UI refinement | 🚧 |
 
-### Archive behavior
-
-A note can transition between:
+### Current core flow
 
 ```text
-Active
-  ↓
-Archived
+┌─────────────┐
+│    Note     │
+└──────┬──────┘
+       │
+       ▼
+┌──────────────────┐
+│   isArchive ?    │
+└────┬─────────┬───┘
+     │         │
+    No        Yes
+     │         │
+     ▼         ▼
+┌────────┐  ┌──────────┐
+│ Active │  │ Archived │
+│ Notes  │  │  Notes   │
+└───┬────┘  └────┬─────┘
+    │             │
+    └──────┬──────┘
+           │
+        Delete
+           │
+           ▼
+      Note removed
 ```
 
-and:
-
-```text
-Archived
-  ↓
-Active
-```
-
-This allows the same note to be restored without creating a duplicate or changing its identity.
-
-### Design approach
-
-The archive implementation follows the same general pattern as other note state changes:
-
-1. Identify the target note.
-2. Update its `isArchive` value.
-3. Preserve the rest of the note data.
-4. Allow the UI to react to the updated state.
-
-This keeps archive/unarchive operations predictable and avoids duplicating note data.
-
 ---
 
-## Delete and Edge Cases
+## 🏗️ Architecture
 
-Delete functionality has also been implemented and the archive-related delete edge cases were explicitly addressed.
-
-The important behavior is that deletion should remove the note from the application's source of truth regardless of whether the note is currently active or archived.
-
-### Edge cases addressed
-
-The implementation accounts for scenarios such as:
-
-- Deleting an active note.
-- Deleting an archived note.
-- Deleting a note while viewing the archive.
-- Ensuring deleted notes do not remain visible because of stale UI state.
-- Avoiding inconsistent behavior when archive state and delete operations interact.
-
-The key principle is:
-
-> **Archive changes where a note is represented in the UI; delete removes the note itself.**
-
-Therefore, deleting an archived note should not require a separate deletion mechanism from deleting an active note.
-
----
-
-## Layout Architecture
-
-The project includes a `MainLayout.tsx` component responsible for the application's primary layout structure.
-
-The layout work is being approached separately from note-management logic so that:
-
-- Layout concerns remain isolated.
-- Feature components do not need to know how the overall application shell is arranged.
-- Navigation and page-level structure can evolve without rewriting note operations.
-- The application can support additional views without duplicating the shell.
-
-The current development direction is to establish the layout as the stable application shell and keep individual note views/features focused on their own responsibilities.
-
----
-
-## Technology Stack
-
-### Core
-
-- **React**
-- **TypeScript**
-
-### Development approach
-
-- Component-based UI architecture
-- Typed application code
-- State-driven UI
-- Reusable layout components
-- Incremental feature implementation
-- Edge-case-focused refinement
-
-> Additional tooling and libraries will be documented here as they become part of the finalized project stack.
-
----
-
-## Project Architecture
-
-The application is being structured around clear separation of responsibilities.
-
-A simplified conceptual architecture is:
+The current architecture is intentionally straightforward:
 
 ```text
 Application
 │
-├── Main Layout
-│   ├── Navigation / Application Shell
+├── MainLayout
+│   ├── Navigation / Shell
 │   └── Page Content
 │
 ├── Notes
@@ -187,142 +103,313 @@ Application
     └── Delete
 ```
 
-The architecture is intentionally kept simple at this stage. The goal is to avoid prematurely introducing abstractions while still maintaining clear boundaries between:
+The main separation is between:
 
-- Layout
-- Presentation
-- Note state
-- Note operations
+- **Layout** → application shell and page structure
+- **Presentation** → displaying notes and actions
+- **State** → note data and archive status
+- **Operations** → archive, unarchive, and delete
+
+This keeps feature logic from becoming tightly coupled to the application's layout.
 
 ---
 
-## Design and Implementation Principles
+## 🧠 Note State
 
-### 1. Single source of truth
+Archive status is represented using the `isArchive` property.
 
-A note should exist in one authoritative state representation.
+```ts
+type Note = {
+  // other note properties
+  isArchive: boolean;
+};
+```
 
-Archive status should determine how the note is presented rather than creating separate copies of the same note.
+Rather than maintaining completely separate note objects for active and archived notes, the same note changes state.
 
-### 2. State-driven UI
+```text
+isArchive = false
+       │
+       ▼
+ Active Note
+       │
+    Archive
+       │
+       ▼
+isArchive = true
+       │
+       ▼
+Archived Note
+       │
+   Unarchive
+       │
+       └──────────► Active Note
+```
+
+### Why this approach?
+
+It gives the application a **single source of truth** for each note.
+
+That means:
+
+- No duplicate note objects.
+- No synchronization between active/archive collections.
+- Archive and unarchive are simple state transitions.
+- The UI can derive what to display directly from note state.
+
+---
+
+## 📦 Archive
+
+Archive functionality has been implemented around `isArchive`.
+
+### Supported operations
+
+- ✅ Archive an active note
+- ✅ Unarchive an archived note
+- ✅ Display archived notes separately
+- ✅ Preserve the original note when archived
+- ✅ Restore the same note when unarchived
+
+The operation conceptually looks like:
+
+```text
+Active
+  │
+  │ archive
+  ▼
+Archived
+  │
+  │ unarchive
+  ▼
+Active
+```
+
+Archive does **not** create a new note.
+
+It changes the state of the existing note.
+
+---
+
+## 🗑️ Delete
+
+Delete removes the note itself from the application's source of truth.
+
+### Supported scenarios
+
+- ✅ Delete an active note
+- ✅ Delete an archived note
+- ✅ Delete while viewing archived notes
+- ✅ Prevent deleted notes from remaining visible due to stale state
+- ✅ Handle archive/delete interactions consistently
+
+The distinction is important:
+
+| Operation | Effect |
+|---|---|
+| Archive | Changes where/how the note is represented |
+| Unarchive | Restores the note to active state |
+| Delete | Removes the note completely |
+
+### Edge-case rule
+
+> **An archived note is still just a note.**
+
+Therefore, deleting an archived note should use the same underlying deletion behavior as deleting an active note.
+
+---
+
+## 🧱 Layout
+
+The application contains a `MainLayout.tsx` component responsible for the main application shell.
+
+The layout is being developed independently from note-management logic.
+
+### Goals
+
+- Keep application-wide structure in one place.
+- Avoid duplicating navigation/layout code.
+- Keep feature components focused on their own responsibilities.
+- Make it easier to add future views.
+- Prevent layout concerns from leaking into state-management logic.
+
+The next stage of the project includes further refinement of this layout.
+
+---
+
+## 🛠️ Tech Stack
+
+### Core
+
+| Technology | Purpose |
+|---|---|
+| **React** | UI framework |
+| **TypeScript** | Type-safe application code |
+
+### Development approach
+
+- Component-based architecture
+- State-driven UI
+- Typed data models
+- Reusable layout components
+- Incremental feature development
+- Explicit edge-case handling
+
+> Additional dependencies will be added here as the project stack is finalized.
+
+---
+
+## 📐 Development Principles
+
+<details>
+<summary><strong>1. Single source of truth</strong></summary>
+
+Each note should have one authoritative representation.
+
+Archive state determines how the note is presented rather than creating duplicate notes.
+
+</details>
+
+<details>
+<summary><strong>2. State-driven UI</strong></summary>
 
 The UI should be derived from application state.
 
+```text
+isArchive = false → Active
+isArchive = true  → Archived
+```
+
+</details>
+
+<details>
+<summary><strong>3. Consistent operations</strong></summary>
+
+An operation should behave consistently regardless of the current view.
+
 For example:
 
 ```text
-isArchive = false → Active Notes
-isArchive = true  → Archived Notes
+Active View
+    │
+    └── Delete ──► Note removed
+
+Archive View
+    │
+    └── Delete ──► Note removed
 ```
 
-This avoids maintaining multiple independent collections that can drift out of sync.
+</details>
 
-### 3. Feature consistency
+<details>
+<summary><strong>4. Edge cases are part of the feature</strong></summary>
 
-Operations should behave consistently regardless of the current view.
+A feature is not considered finished simply because its primary interaction works.
 
-For example:
+Archive/delete interactions have been explicitly refined to prevent inconsistent states.
 
-```text
-Active view
-    └── Delete note
-          ↓
-       Note removed
+</details>
 
-Archive view
-    └── Delete note
-          ↓
-       Note removed
-```
+<details>
+<summary><strong>5. Separation of concerns</strong></summary>
 
-### 4. Edge cases are part of the feature
+Layout, presentation, state, and operations should remain independently understandable wherever practical.
 
-A feature is not considered complete merely because the primary interaction works.
-
-Archive/delete interactions were specifically tested and refined to prevent inconsistent states.
-
-### 5. Separation of concerns
-
-Layout should not contain note-management logic, and note-management logic should not depend unnecessarily on the application's visual layout.
+</details>
 
 ---
 
-## Current Development Status
+## 📊 Development Progress
 
-### Completed
+### ✅ Completed
 
-- [x] React + TypeScript application foundation
+- [x] React + TypeScript foundation
 - [x] Notes application structure
-- [x] Main layout component introduced
-- [x] Archive state represented through `isArchive`
+- [x] Main layout component
+- [x] `isArchive` state
 - [x] Archive functionality
 - [x] Unarchive functionality
 - [x] Delete functionality
-- [x] Archive/delete edge cases addressed
-- [x] Initial separation between application layout and note functionality
+- [x] Archive/Delete edge cases
+- [x] Initial separation of layout and feature concerns
 
-### In Progress
+### 🚧 In Progress
 
-- [ ] Further refinement of the main application layout
-- [ ] Continued UI/component organization
-- [ ] Additional note-management functionality
+- [ ] Main application layout refinement
+- [ ] Further component organization
+- [ ] UI/UX refinement
+- [ ] Additional note functionality
 
-### Not Yet Documented as Implemented
+### ⏳ Planned
 
-Features that have not been explicitly completed in the project work so far are intentionally not marked as implemented here. This keeps the README aligned with the actual state of the codebase rather than presenting planned functionality as finished functionality.
+- [ ] Note creation/editing improvements
+- [ ] Search and filtering
+- [ ] Persistence
+- [ ] Automated testing
+- [ ] Responsive behavior
+- [ ] Accessibility improvements
+- [ ] Production build/deployment
 
----
-
-## Next Steps
-
-The immediate development direction is to continue refining the application layout and then build additional functionality on top of the established note state model.
-
-Potential areas for subsequent implementation/documentation include:
-
-- Note creation and editing improvements
-- Note search/filtering
-- Additional note actions
-- UI/UX refinement
-- Persistence
-- Testing
-- Responsive behavior
-- Accessibility
-- Production build/deployment
-
-These are development directions rather than completed features.
+> Planned items are intentionally not marked as implemented.
 
 ---
 
-## Development Philosophy
-
-The project is being developed feature-by-feature, with each feature expected to handle both its normal path and relevant edge cases before moving on.
-
-The current implementation particularly establishes an important foundation:
+## 🗺️ Roadmap
 
 ```text
-                    ┌──────────────┐
-                    │     Note     │
-                    └──────┬───────┘
-                           │
-                 ┌─────────┴─────────┐
-                 │                   │
-          isArchive = false   isArchive = true
-                 │                   │
-                 ▼                   ▼
-          Active Notes        Archived Notes
-                 │                   │
-                 └─────────┬─────────┘
-                           │
-                        Delete
-                           │
-                           ▼
-                     Note removed
+Foundation
+    │
+    ├── React + TypeScript              ✅
+    ├── Note structure                  ✅
+    └── Main layout                     ✅
+    │
+    ▼
+Core Note Operations
+    │
+    ├── Archive                         ✅
+    ├── Unarchive                       ✅
+    └── Delete                          ✅
+    │
+    ▼
+Architecture Refinement
+    │
+    ├── Layout refinement               🚧
+    ├── Component organization          🚧
+    └── UI refinement                   🚧
+    │
+    ▼
+Future Features
+    │
+    ├── Search / filtering              ⏳
+    ├── Persistence                     ⏳
+    ├── Testing                         ⏳
+    └── Deployment                      ⏳
 ```
-
-This keeps the application's behavior centered around a single note model and predictable state transitions.
 
 ---
 
-## License
+## 🧪 Current State at a Glance
 
-License information has not yet been defined for the project.
+<details>
+<summary><strong>What works right now?</strong></summary>
+
+The application currently has a functional note lifecycle centered around:
+
+**Active → Archive → Unarchive → Delete**
+
+Both active and archived notes can be deleted, and archive/delete edge cases have been handled.
+
+</details>
+
+<details>
+<summary><strong>What is being worked on next?</strong></summary>
+
+The immediate focus is the application's layout and component organization, building on the note state and operation model already established.
+
+</details>
+
+---
+
+## 📄 License
+
+License information has not yet been defined.
