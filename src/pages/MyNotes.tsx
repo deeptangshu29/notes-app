@@ -46,7 +46,8 @@ export default function Home() {
 	return (
 		<MainLayout>
 			<Sidebar />
-			<main className="flex-1 flex flex-col transition-all duration-300 ease-in-out bg-[url('/assets/img/background3.jpg')] bg-fixed bg-cover bg-no-repeat bg-center">
+			<main className="flex-1 flex flex-col transition-all duration-300 ease-in-out">
+			{/* <main className="flex-1 flex flex-col transition-all duration-300 ease-in-out bg-[url('/assets/img/background3.jpg')] bg-fixed bg-cover bg-no-repeat bg-center"> */}
 				<Header
 					searchQuery={searchQuery}
 					setSearchQuery={setSearchQuery}
